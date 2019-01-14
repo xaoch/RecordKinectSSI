@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-16" standalone="yes"?>
+
+<pipeline>
+	<job path="mkdir.bat" args="$(log:dir)" when="post" wait="-1"/>
+
+	<consumer create="FFMPEGWriter:write" path="$(log:dir)\$(date)_$(num,3)\video.mp4" overwrite="false">
+		<input pin="rgb" frame="1" stream="true" vbuffer="100.0" />		
+	</consumer>	
+
+	<!--consumer create="WavWriter::writer-audio" path="$(log:dir)\$(date)_$(num,3)\audio.wav" format=" mpegts" overwrite="false">
+		<input pin="audio" frame="1"/>
+	</consumer-->
+
+	<consumer create="FileWriter:writer-skel" path="$(log:dir)\$(date)_$(num,3)\kinect.skel" overwrite="false" type="1">
+		<input pin="skelms" frame="1"/>
+	</consumer>
+
+	<!--consumer create="FileWriter:writer-had" path="$(log:dir)\$(date)_$(num,3)\kinect.hand" overwrite="false" type="0">
+		<input pin="hand" frame="1"/>
+	</consumer-->
+
+</pipeline>
